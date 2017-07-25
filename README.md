@@ -3,6 +3,8 @@
 This Android application allows you to manage your OVH redirections, directly on your phone, using your OVH API keys.
 You can basically add redirections for your domain, et remove ones. You can choose whether you want to store the keys to your phone or not, depending on the level of privacy you want, and how much you care about the Android botnet.
 
+Don't be rude concerning the app icon, made it myself, you can't understand my art, etc..
+
 ## Getting Started
 
 This is an Android Studio project, so the easiest way to get it compiled is to open the project with Android Studio, let it install required tools with Gradle, and build the app.
