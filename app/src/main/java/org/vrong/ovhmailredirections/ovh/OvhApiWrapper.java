@@ -1,11 +1,11 @@
-package org.vrong.ovhmailredirections;
+package org.vrong.ovhmailredirections.ovh;
 
 import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
+import org.vrong.ovhmailredirections.data.OvhApiKeys;
+import org.vrong.ovhmailredirections.data.Redirection;
 
-import java.io.UnsupportedEncodingException;
-import java.net.URLEncoder;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.Comparator;
@@ -19,7 +19,7 @@ public class OvhApiWrapper {
 
     private OvhApi api = null;
 
-    public OvhApiWrapper(DomainID id)
+    public OvhApiWrapper(OvhApiKeys id)
     {
         api = new OvhApi(id);
     }
@@ -28,6 +28,10 @@ public class OvhApiWrapper {
         return api;
     }
 
+    /**
+     * Try to fetch redirections to know whether the keys are valid or not
+     * @return true if valid, false otherwise
+     */
     public boolean checkIds()
     {
         String body = "";

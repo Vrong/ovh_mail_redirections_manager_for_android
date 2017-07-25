@@ -1,6 +1,8 @@
-package org.vrong.ovhmailredirections;
+package org.vrong.ovhmailredirections.data;
 
 import android.content.Context;
+
+import org.vrong.ovhmailredirections.misc.PropertyFile;
 
 import java.io.IOException;
 
@@ -16,7 +18,7 @@ public class DomainIdLoader {
     public static final String ENDPOINT = "ep";
     public static final String DOMAIN = "domain";
 
-    public static DomainID loadDomainID(Context context)
+    public static OvhApiKeys loadDomainID(Context context)
     {
         try{
             PropertyFile prop = new PropertyFile(context, DOMAIN_FILE);
@@ -25,7 +27,7 @@ public class DomainIdLoader {
                     && prop.hasKey(CONSUMER_KEY)
                     && prop.hasKey(ENDPOINT)
                     && prop.hasKey(DOMAIN))
-                return new DomainID(prop.getValue(APPLICATION_KEY),
+                return new OvhApiKeys(prop.getValue(APPLICATION_KEY),
                         prop.getValue(SECRET_APPLICATION_KEY),
                         prop.getValue(CONSUMER_KEY),
                         prop.getValue(DOMAIN),
@@ -40,7 +42,7 @@ public class DomainIdLoader {
 
     }
 
-    public static boolean saveDomainID(Context context, DomainID id)
+    public static boolean saveDomainID(Context context, OvhApiKeys id)
     {
         try
         {

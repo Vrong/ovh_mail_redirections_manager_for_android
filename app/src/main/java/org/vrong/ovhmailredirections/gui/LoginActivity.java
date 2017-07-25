@@ -1,40 +1,31 @@
-package org.vrong.ovhmailredirections;
+package org.vrong.ovhmailredirections.gui;
 
 import android.animation.Animator;
 import android.animation.AnimatorListenerAdapter;
 import android.annotation.TargetApi;
-import android.content.pm.PackageManager;
-import android.support.annotation.NonNull;
 import android.support.design.widget.Snackbar;
 import android.support.v7.app.AppCompatActivity;
-import android.app.LoaderManager.LoaderCallbacks;
 
-import android.content.CursorLoader;
-import android.content.Loader;
-import android.database.Cursor;
-import android.net.Uri;
 import android.os.AsyncTask;
 
 import android.os.Build;
 import android.os.Bundle;
-import android.provider.ContactsContract;
-import android.text.TextUtils;
 import android.view.KeyEvent;
 import android.view.View;
 import android.view.View.OnClickListener;
 import android.view.inputmethod.EditorInfo;
-import android.widget.ArrayAdapter;
 import android.widget.AutoCompleteTextView;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.Switch;
 import android.widget.TextView;
 
-import java.util.ArrayList;
-import java.util.List;
-import java.util.regex.Pattern;
+import org.vrong.ovhmailredirections.data.DomainIdLoader;
+import org.vrong.ovhmailredirections.data.OvhApiKeys;
+import org.vrong.ovhmailredirections.ovh.OvhApiWrapper;
+import org.vrong.ovhmailredirections.R;
 
-import static android.Manifest.permission.READ_CONTACTS;
+import java.util.regex.Pattern;
 
 /**
  * A login screen that offers login via email/password.
@@ -79,7 +70,7 @@ public class LoginActivity extends AppCompatActivity {
             }
         });
 
-        DomainID id = DomainIdLoader.loadDomainID(this);
+        OvhApiKeys id = DomainIdLoader.loadDomainID(this);
         if(id != null)
         {
             mDomain.setText(id.getDomain());
@@ -122,7 +113,7 @@ public class LoginActivity extends AppCompatActivity {
 
 
         // Store values at the time of the login attempt.
-        DomainID id = new DomainID(mApplicationKey.getText().toString().trim(),
+        OvhApiKeys id = new OvhApiKeys(mApplicationKey.getText().toString().trim(),
                 mSecretApplicationKey.getText().toString().trim(),
                 mConsumerKey.getText().toString().trim(),
                 mDomain.getText().toString().trim(),
@@ -240,9 +231,9 @@ public class LoginActivity extends AppCompatActivity {
      */
     public class UserLoginTask extends AsyncTask<Void, Void, Boolean> {
 
-        private final DomainID id;
+        private final OvhApiKeys id;
 
-        UserLoginTask(DomainID id) {
+        UserLoginTask(OvhApiKeys id) {
             this.id = id;
         }
 

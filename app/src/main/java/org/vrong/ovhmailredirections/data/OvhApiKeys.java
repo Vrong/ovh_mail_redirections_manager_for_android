@@ -1,11 +1,11 @@
-package org.vrong.ovhmailredirections;
+package org.vrong.ovhmailredirections.data;
 
 /**
  * Created by vrong on 21/07/17.
  */
 
-public class DomainID {
-    public DomainID(String applicationKey, String secretApplicationKey, String consumerKey, String domain, String endPoint) {
+public class OvhApiKeys {
+    public OvhApiKeys(String applicationKey, String secretApplicationKey, String consumerKey, String domain, String endPoint) {
         this.applicationKey = applicationKey.trim();
         this.secretApplicationKey = secretApplicationKey.trim();
         this.consumerKey = consumerKey.trim();
@@ -39,6 +39,12 @@ public class DomainID {
         return endPoint;
     }
 
+    /**
+     * Add the domain name to the address if needed
+     * ex: "test" -> "test@domain.org"
+     * @param mail A mail address or whatever mail prefix
+     * @return a mail address
+     */
     public String buildMail(String mail)
     {
         mail = mail.trim();

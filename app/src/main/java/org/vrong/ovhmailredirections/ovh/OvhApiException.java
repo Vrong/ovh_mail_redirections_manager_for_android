@@ -1,4 +1,4 @@
-package org.vrong.ovhmailredirections;
+package org.vrong.ovhmailredirections.ovh;
 
 /**
  * Created by vrong on 23/07/17.

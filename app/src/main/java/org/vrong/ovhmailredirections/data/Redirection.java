@@ -1,11 +1,11 @@
-package org.vrong.ovhmailredirections;
+package org.vrong.ovhmailredirections.data;
 
 /**
  * Created by vrong on 21/07/17.
  */
 
 public class Redirection {
-    public Redirection(DomainID login, String id, String source, String destination, boolean localCopy)
+    public Redirection(OvhApiKeys login, String id, String source, String destination, boolean localCopy)
     {
         this.id = id;
         this.source = source;
@@ -18,7 +18,7 @@ public class Redirection {
     private String id=null;
     private String source=null;
     private String destination=null;
-    private DomainID login=null;
+    private OvhApiKeys login=null;
 
     public String getSource() {
         return source;
@@ -32,7 +32,7 @@ public class Redirection {
         return id;
     }
 
-    public DomainID getLogin() {
+    public OvhApiKeys getLogin() {
         return login;
     }
 

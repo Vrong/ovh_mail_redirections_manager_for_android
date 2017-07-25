@@ -1,4 +1,4 @@
-package org.vrong.ovhmailredirections;
+package org.vrong.ovhmailredirections.gui;
 
 import android.graphics.ColorFilter;
 import android.graphics.ColorMatrixColorFilter;

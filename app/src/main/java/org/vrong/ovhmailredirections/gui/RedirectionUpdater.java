@@ -1,8 +1,9 @@
-package org.vrong.ovhmailredirections;
+package org.vrong.ovhmailredirections.gui;
 
-import android.content.Intent;
 import android.os.AsyncTask;
-import android.support.design.widget.Snackbar;
+
+import org.vrong.ovhmailredirections.ovh.OvhApiWrapper;
+import org.vrong.ovhmailredirections.data.Redirection;
 
 import java.util.List;
 
@@ -10,20 +11,20 @@ import java.util.List;
  * Created by vrong on 23/07/17.
  */
 
-class RedirectionLoading extends AsyncTask<Void, Void, Boolean> {
+class RedirectionUpdater extends AsyncTask<Void, Void, Boolean> {
 
     private final OvhApiWrapper wrapper;
     private final RedirectionAction action;
-    private final RedirectionListener listener;
+    private final RedirectionUpdaterListener listener;
     List<Redirection> redirs;
 
-    RedirectionLoading(OvhApiWrapper wrapper, RedirectionListener listener, RedirectionAction action) {
+    RedirectionUpdater(OvhApiWrapper wrapper, RedirectionUpdaterListener listener, RedirectionAction action) {
         this.wrapper = wrapper;
         this.action = action;
         this.listener = listener;
     }
 
-    RedirectionLoading(OvhApiWrapper wrapper, RedirectionListener listener)
+    RedirectionUpdater(OvhApiWrapper wrapper, RedirectionUpdaterListener listener)
     {
         this(wrapper, listener, new RedirectionAction(REDIRECTION_ACTION.SELECTION, null));
     }
@@ -44,7 +45,7 @@ class RedirectionLoading extends AsyncTask<Void, Void, Boolean> {
                 result = wrapper.removeRedirection(action.item);
                 break;
         }
-        if(result == true)
+        if(result)
             redirs = wrapper.getMailRedirections();
 
         return result;

@@ -6,7 +6,7 @@
 
 
     <TextView
-        android:text="getvrong@vrong.org"
+        android:text="redirection@domain.org"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_alignParentTop="true"
@@ -36,7 +36,7 @@
         android:id="@+id/textView2" />
 
     <TextView
-        android:text="vrong@vrong.org"
+        android:text="name@domain.org"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_below="@+id/source"

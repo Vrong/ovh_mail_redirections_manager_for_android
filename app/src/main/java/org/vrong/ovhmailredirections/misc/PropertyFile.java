@@ -1,4 +1,4 @@
-package org.vrong.ovhmailredirections;
+package org.vrong.ovhmailredirections.misc;
 
 import android.content.Context;
 

@@ -1,4 +1,4 @@
-package org.vrong.ovhmailredirections;
+package org.vrong.ovhmailredirections.ovh;
 
 import java.io.BufferedReader;
 import java.io.DataOutputStream;
@@ -6,13 +6,13 @@ import java.io.IOException;
 import java.io.InputStreamReader;
 import java.io.UnsupportedEncodingException;
 import java.net.HttpURLConnection;
-import java.net.MalformedURLException;
 import java.net.URL;
 import java.security.MessageDigest;
 import java.security.NoSuchAlgorithmException;
 import java.util.HashMap;
 import java.util.Map;
-import org.vrong.ovhmailredirections.OvhApiException.OvhApiExceptionCause;
+
+import org.vrong.ovhmailredirections.data.OvhApiKeys;
 
 /**
  * Created by vrong on 22/07/17.
@@ -20,7 +20,7 @@ import org.vrong.ovhmailredirections.OvhApiException.OvhApiExceptionCause;
 
 public class OvhApi {
 
-    private DomainID id = null;
+    private OvhApiKeys id = null;
 
     private final static Map<String, String> endpoints;
     static {
@@ -35,17 +35,17 @@ public class OvhApi {
         endpoints.put("runabove-ca", "https://api.runabove.com/1.0");
     }
 
-    public OvhApi(DomainID id)
+    public OvhApi(OvhApiKeys id)
     {
         this.id = id;
     }
 
 
-    public DomainID getId() {
+    public OvhApiKeys getId() {
         return id;
     }
 
-    public void setId(DomainID id) {
+    public void setId(OvhApiKeys id) {
         this.id = id;
     }
 
@@ -54,7 +54,7 @@ public class OvhApi {
     private void assertAllConfigNotNull() throws OvhApiException{
         if(id.getEndPoint()==null || id.getApplicationKey()==null ||
                 id.getSecretApplicationKey()==null || id.getSecretApplicationKey()==null) {
-            throw new OvhApiException("", OvhApiExceptionCause.CONFIG_ERROR);
+            throw new OvhApiException("", OvhApiException.OvhApiExceptionCause.CONFIG_ERROR);
         }
     }
 
@@ -89,7 +89,7 @@ public class OvhApi {
     }
 
 
-    private String call(String method, String body, DomainID id, String path, boolean needAuth) throws OvhApiException
+    private String call(String method, String body, OvhApiKeys id, String path, boolean needAuth) throws OvhApiException
     {
 
         try {
@@ -163,21 +163,21 @@ public class OvhApi {
                 // return the raw JSON result
                 return response.toString();
             } else if(responseCode == 400) {
-                throw new OvhApiException(response.toString(), OvhApiExceptionCause.BAD_PARAMETERS_ERROR);
+                throw new OvhApiException(response.toString(), OvhApiException.OvhApiExceptionCause.BAD_PARAMETERS_ERROR);
             } else if (responseCode == 403) {
-                throw new OvhApiException(response.toString(), OvhApiExceptionCause.AUTH_ERROR);
+                throw new OvhApiException(response.toString(), OvhApiException.OvhApiExceptionCause.AUTH_ERROR);
             } else if (responseCode == 404) {
-                throw new OvhApiException(response.toString(), OvhApiExceptionCause.RESSOURCE_NOT_FOUND);
+                throw new OvhApiException(response.toString(), OvhApiException.OvhApiExceptionCause.RESSOURCE_NOT_FOUND);
             } else if (responseCode == 409) {
-                throw new OvhApiException(response.toString(), OvhApiExceptionCause.RESSOURCE_CONFLICT_ERROR);
+                throw new OvhApiException(response.toString(), OvhApiException.OvhApiExceptionCause.RESSOURCE_CONFLICT_ERROR);
             } else {
-                throw new OvhApiException(response.toString(), OvhApiExceptionCause.API_ERROR);
+                throw new OvhApiException(response.toString(), OvhApiException.OvhApiExceptionCause.API_ERROR);
             }
 
         } catch (NoSuchAlgorithmException e) {
-            throw new OvhApiException(e.getMessage(), OvhApiExceptionCause.INTERNAL_ERROR);
+            throw new OvhApiException(e.getMessage(), OvhApiException.OvhApiExceptionCause.INTERNAL_ERROR);
         } catch (IOException e) {
-            throw new OvhApiException(e.getMessage(), OvhApiExceptionCause.INTERNAL_ERROR);
+            throw new OvhApiException(e.getMessage(), OvhApiException.OvhApiExceptionCause.INTERNAL_ERROR);
         }
 
     }
