@@ -10,20 +10,20 @@ import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.view.LayoutInflater;
-import android.view.View;
 import android.view.Menu;
 import android.view.MenuItem;
+import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ListView;
 import android.widget.Switch;
 
+import org.vrong.ovhmailredirections.R;
 import org.vrong.ovhmailredirections.data.DomainIdLoader;
 import org.vrong.ovhmailredirections.data.OvhApiKeys;
-import org.vrong.ovhmailredirections.ovh.OvhApiWrapper;
-import org.vrong.ovhmailredirections.misc.PropertyFile;
-import org.vrong.ovhmailredirections.R;
 import org.vrong.ovhmailredirections.data.Redirection;
+import org.vrong.ovhmailredirections.misc.PropertyFile;
+import org.vrong.ovhmailredirections.ovh.OvhApiWrapper;
 
 import java.io.IOException;
 import java.util.List;
@@ -33,6 +33,7 @@ public class RedirectionsActivity extends AppCompatActivity implements Redirecti
     private OvhApiWrapper wrapper = null;
     ListView redirLv = null;
     FloatingActionButton fab;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -40,7 +41,7 @@ public class RedirectionsActivity extends AppCompatActivity implements Redirecti
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
 
-        redirLv = (ListView)findViewById(R.id.redir_listview);
+        redirLv = (ListView) findViewById(R.id.redir_listview);
 
         fab = (FloatingActionButton) findViewById(R.id.fab);
         fab.setOnClickListener(new View.OnClickListener() {
@@ -67,7 +68,7 @@ public class RedirectionsActivity extends AppCompatActivity implements Redirecti
                 try {
                     PropertyFile prop = new PropertyFile(RedirectionsActivity.this, "config");
                     String last_address = prop.getValue("last_to");
-                    if(last_address != null)
+                    if (last_address != null)
                         toEt.setText(last_address);
                 } catch (IOException e) {
                     e.printStackTrace();
@@ -80,7 +81,7 @@ public class RedirectionsActivity extends AppCompatActivity implements Redirecti
                         .setPositiveButton("Create", null)
                         .setNegativeButton("Cancel",
                                 new DialogInterface.OnClickListener() {
-                                    public void onClick(DialogInterface dialog,int id) {
+                                    public void onClick(DialogInterface dialog, int id) {
                                         dialog.cancel();
                                     }
                                 });
@@ -98,9 +99,8 @@ public class RedirectionsActivity extends AppCompatActivity implements Redirecti
 
                             @Override
                             public void onClick(View view) {
-                                if(!fromEt.getText().toString().isEmpty() &&
-                                        !toEt.getText().toString().isEmpty())
-                                {
+                                if (!fromEt.getText().toString().isEmpty() &&
+                                        !toEt.getText().toString().isEmpty()) {
                                     OvhApiKeys domid = RedirectionsActivity.this.wrapper.getApi().getId();
                                     Redirection redir = new Redirection(domid, "0",
                                             domid.buildMail(fromEt.getText().toString()),
@@ -128,29 +128,22 @@ public class RedirectionsActivity extends AppCompatActivity implements Redirecti
 
                 // show it
                 alertDialog.show();
-
             }
         });
 
-        ViewUtils.changeDrawableColor(Color.WHITE,  fab.getDrawable());
-
+        ViewUtils.changeDrawableColor(Color.WHITE, fab.getDrawable());
     }
 
     @Override
-    public void onResume()
-    {
+    public void onResume() {
         super.onResume();
 
         setLoading(true);
         OvhApiKeys id = DomainIdLoader.loadDomainID(this);
-        if(id == null)
-        {
+        if (id == null) {
             Intent i = new Intent(this, LoginActivity.class);
             this.startActivity(i);
-            return;
-        }
-        else
-        {
+        } else {
             wrapper = new OvhApiWrapper(id);
             new RedirectionUpdater(wrapper, this).execute();
         }
@@ -193,8 +186,7 @@ public class RedirectionsActivity extends AppCompatActivity implements Redirecti
                         .setIcon(android.R.drawable.ic_dialog_alert)
                         .setTitle("Remove this redirection ?")
                         .setMessage("Are you sure you want to remove this redirection :\nfrom " + holder.redirection.getSource() + " to " + holder.redirection.getDestination() + " ?")
-                        .setPositiveButton("Yes", new DialogInterface.OnClickListener()
-                        {
+                        .setPositiveButton("Yes", new DialogInterface.OnClickListener() {
                             @Override
                             public void onClick(DialogInterface dialog, int which) {
 
@@ -213,8 +205,7 @@ public class RedirectionsActivity extends AppCompatActivity implements Redirecti
         redirLv.setAdapter(new RedirectionListAdapter(this, R.layout.redirection_item, redirections, delete));
 
         String msg = "Action performed !";
-        switch(action.action)
-        {
+        switch (action.action) {
             case SELECTION:
                 msg = "Loading success.";
                 break;
@@ -232,45 +223,35 @@ public class RedirectionsActivity extends AppCompatActivity implements Redirecti
 
     @Override
     public void onLoadingFailed(RedirectionUpdater.RedirectionAction action) {
-
-
-            String msg = "Action performed !";
-            switch(action.action)
-            {
-                case SELECTION:
-                    msg = "Failed to authenticate, check whether the keys are correct or you have the right access to the API.";
-                    break;
-                case SUPPRESSION:
-                    msg = "Error occured while removing " + action.item.getSource() + ".";
-                    break;
-                case CREATION:
-                    msg = "Error occured while adding " + action.item.getDestination() + ".";
-            }
+        String msg = "Action performed !";
+        switch (action.action) {
+            case SELECTION:
+                msg = "Failed to authenticate, check whether the keys are correct or you have the right access to the API.";
+                break;
+            case SUPPRESSION:
+                msg = "Error occured while removing " + action.item.getSource() + ".";
+                break;
+            case CREATION:
+                msg = "Error occured while adding " + action.item.getDestination() + ".";
+        }
 
         Snackbar.make(RedirectionsActivity.this.fab, msg, 3000)
                 .setAction("Action", null).show();
 
-        if(action.action == RedirectionUpdater.REDIRECTION_ACTION.SELECTION)
-        {
+        if (action.action == RedirectionUpdater.REDIRECTION_ACTION.SELECTION) {
             Intent i = new Intent(RedirectionsActivity.this, LoginActivity.class);
             RedirectionsActivity.this.startActivity(i);
         }
 
         setLoading(false);
-
     }
 
-
-    public void setLoading(boolean loading)
-    {
-        if(loading)
-        {
+    public void setLoading(boolean loading) {
+        if (loading) {
             this.findViewById(R.id.redirection_progress).setVisibility(View.VISIBLE);
             this.findViewById(R.id.fab).setVisibility(View.GONE);
             this.findViewById(R.id.redir_listview).setVisibility(View.GONE);
-        }
-        else
-        {
+        } else {
             this.findViewById(R.id.redirection_progress).setVisibility(View.GONE);
             this.findViewById(R.id.fab).setVisibility(View.VISIBLE);
             this.findViewById(R.id.redir_listview).setVisibility(View.VISIBLE);

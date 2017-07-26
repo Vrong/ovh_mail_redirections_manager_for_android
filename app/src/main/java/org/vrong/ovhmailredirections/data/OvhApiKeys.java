@@ -13,11 +13,11 @@ public class OvhApiKeys {
         this.endPoint = endPoint.trim();
     }
 
-    private String applicationKey=null;
-    private String secretApplicationKey=null;
-    private String consumerKey=null;
-    private String domain=null;
-    private String endPoint=null;
+    private String applicationKey = null;
+    private String secretApplicationKey = null;
+    private String consumerKey = null;
+    private String domain = null;
+    private String endPoint = null;
 
     public String getApplicationKey() {
         return applicationKey;
@@ -42,14 +42,13 @@ public class OvhApiKeys {
     /**
      * Add the domain name to the address if needed
      * ex: "test" -> "test@domain.org"
+     *
      * @param mail A mail address or whatever mail prefix
      * @return a mail address
      */
-    public String buildMail(String mail)
-    {
+    public String buildMail(String mail) {
         mail = mail.trim();
-        if(!mail.contains("@") && domain != null)
-        {
+        if (!mail.contains("@") && domain != null) {
             mail = mail + "@" + domain;
         }
         return mail;

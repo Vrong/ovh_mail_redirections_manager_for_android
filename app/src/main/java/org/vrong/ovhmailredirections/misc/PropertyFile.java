@@ -13,7 +13,6 @@ import java.io.OutputStream;
 import java.io.OutputStreamWriter;
 import java.io.PrintWriter;
 import java.util.HashMap;
-import java.util.Iterator;
 import java.util.Map;
 
 
@@ -24,8 +23,8 @@ import java.util.Map;
 public class PropertyFile {
 
     private HashMap<String, String> values;
-    Context context;
-    String filename = null;
+    private Context context;
+    private String filename = null;
 
 
     public PropertyFile(Context context, String file) throws IOException {
@@ -38,39 +37,34 @@ public class PropertyFile {
             throw new IOException();*/
     }
 
-    public String getValue(String key)
-    {
+    public String getValue(String key) {
         return values.get(key);
     }
 
-    public boolean hasKey(String key)
-    {
+    public boolean hasKey(String key) {
         return values.containsKey(key);
     }
 
-    public void putValue(String key, String value)
-    {
+    public void putValue(String key, String value) {
         values.put(key, value);
     }
 
-    public boolean matchValue(String key, String value)
-    {
-        if(values.containsKey(key))
+    public boolean matchValue(String key, String value) {
+        if (values.containsKey(key)) {
             return values.get(key).equals(value);
-        else if(value == null)
+        } else if (value == null) {
             return true;
+        }
 
         return false;
     }
 
 
-    public void removeKey(String key)
-    {
+    public void removeKey(String key) {
         values.remove(key);
     }
 
-    public boolean reload()
-    {
+    public boolean reload() {
         values = new HashMap<>();
         File dir = context.getFilesDir();
         try {
@@ -79,11 +73,10 @@ public class PropertyFile {
             String line = r.readLine();
 
             while (line != null) {
-                if(line.length() == 0)
+                if (line.length() == 0)
                     continue;
                 String tab[] = line.split(" ");
-                switch (tab.length)
-                {
+                switch (tab.length) {
                     case 1:
                         values.put(tab[0], "");
                         break;
@@ -101,17 +94,13 @@ public class PropertyFile {
         return true;
     }
 
-    public boolean save()
-    {
+    public boolean save() {
         File dir = context.getFilesDir();
         try {
             OutputStream os = new FileOutputStream(new File(dir, filename));
             PrintWriter w = new PrintWriter(new OutputStreamWriter(os));
 
-            Iterator it = values.entrySet().iterator();
-            while(it.hasNext())
-            {
-                Map.Entry<String, String> pair = (Map.Entry<String, String>)it.next();
+            for (Map.Entry<String, String> pair : values.entrySet()) {
                 w.println(pair.getKey() + " " + pair.getValue());
             }
 
@@ -124,12 +113,13 @@ public class PropertyFile {
         return true;
     }
 
-    public String dumpContent()
-    {
+    public String dumpContent() {
         StringBuilder sb = new StringBuilder();
-        for(String key : values.keySet())
-        {
-            sb.append(key + " -> " + values.get(key) + "\n");
+        for (String key : values.keySet()) {
+            sb.append(key)
+                    .append(" -> ")
+                    .append(values.get(key))
+                    .append("\n");
         }
         return sb.toString();
     }

@@ -1,6 +1,7 @@
 package org.vrong.ovhmailredirections.gui;
 
 import android.content.Context;
+import android.support.annotation.NonNull;
 import android.support.design.widget.FloatingActionButton;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -29,16 +30,15 @@ public class RedirectionListAdapter extends ArrayAdapter<Redirection> {
         redirsList = new ArrayList<>(objects);
     }
 
-
+    @NonNull
     @Override
-    public View getView(int position, View convertView, ViewGroup parent)
-    {
+    public View getView(int position, View convertView, @NonNull ViewGroup parent) {
         Redirection redir = redirsList.get(position);
         RedirectionViewHolder holder = null;
 
         if (convertView == null) {
             //Inflate our XML view
-            LayoutInflater vi = (LayoutInflater)this.getContext().getSystemService(
+            LayoutInflater vi = (LayoutInflater) this.getContext().getSystemService(
                     Context.LAYOUT_INFLATER_SERVICE);
             convertView = vi.inflate(R.layout.redirection_item, null);
 
@@ -54,9 +54,7 @@ public class RedirectionListAdapter extends ArrayAdapter<Redirection> {
 
             //set listener on the delete fab
             holder.deleteFab.setOnClickListener(deleteClickListener);
-        }
-        else
-        {
+        } else {
             holder = (RedirectionViewHolder) convertView.getTag();
         }
         holder.redirection = redir;
@@ -68,8 +66,7 @@ public class RedirectionListAdapter extends ArrayAdapter<Redirection> {
         return convertView;
     }
 
-    public class RedirectionViewHolder
-    {
+    public class RedirectionViewHolder {
         public Redirection redirection;
         public View itemV;
         public FloatingActionButton deleteFab;
