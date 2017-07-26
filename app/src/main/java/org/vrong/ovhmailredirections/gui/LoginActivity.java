@@ -3,13 +3,11 @@ package org.vrong.ovhmailredirections.gui;
 import android.animation.Animator;
 import android.animation.AnimatorListenerAdapter;
 import android.annotation.TargetApi;
-import android.support.design.widget.Snackbar;
-import android.support.v7.app.AppCompatActivity;
-
 import android.os.AsyncTask;
-
 import android.os.Build;
 import android.os.Bundle;
+import android.support.design.widget.Snackbar;
+import android.support.v7.app.AppCompatActivity;
 import android.view.KeyEvent;
 import android.view.View;
 import android.view.View.OnClickListener;
@@ -20,10 +18,10 @@ import android.widget.EditText;
 import android.widget.Switch;
 import android.widget.TextView;
 
+import org.vrong.ovhmailredirections.R;
 import org.vrong.ovhmailredirections.data.DomainIdLoader;
 import org.vrong.ovhmailredirections.data.OvhApiKeys;
 import org.vrong.ovhmailredirections.ovh.OvhApiWrapper;
-import org.vrong.ovhmailredirections.R;
 
 import java.util.regex.Pattern;
 
@@ -71,8 +69,7 @@ public class LoginActivity extends AppCompatActivity {
         });
 
         OvhApiKeys id = DomainIdLoader.loadDomainID(this);
-        if(id != null)
-        {
+        if (id != null) {
             mDomain.setText(id.getDomain());
             mSecretApplicationKey.setText(id.getSecretApplicationKey());
             mApplicationKey.setText(id.getApplicationKey());
@@ -119,7 +116,7 @@ public class LoginActivity extends AppCompatActivity {
                 mDomain.getText().toString().trim(),
                 mEndPoint.getText().toString().trim());
 
-        if(mSave.isChecked())
+        if (mSave.isChecked())
             DomainIdLoader.saveDomainID(LoginActivity.this, id);
 
         boolean cancel = false;
@@ -137,20 +134,15 @@ public class LoginActivity extends AppCompatActivity {
             cancel = true;
             focusView = mDomain;
             mDomain.setError("Not a valid domain");
-        }
-        else if (!checkKey(id.getApplicationKey(), 16)) {
+        } else if (!checkKey(id.getApplicationKey(), 16)) {
             cancel = true;
             focusView = mApplicationKey;
             mApplicationKey.setError("Not a valid format");
-        }
-        else if(!checkKey(id.getSecretApplicationKey(), 32))
-        {
+        } else if (!checkKey(id.getSecretApplicationKey(), 32)) {
             cancel = true;
             focusView = mSecretApplicationKey;
             mSecretApplicationKey.setError("Not a valid format");
-        }
-        else if(!checkKey(id.getConsumerKey(), 32))
-        {
+        } else if (!checkKey(id.getConsumerKey(), 32)) {
             cancel = true;
             focusView = mConsumerKey;
             mConsumerKey.setError("Not a valid format");
@@ -169,18 +161,16 @@ public class LoginActivity extends AppCompatActivity {
         }
     }
 
-    private boolean checkDomain(String domain)
-    {
+    private boolean checkDomain(String domain) {
         if (Pattern.matches("[a-zA-Z0-9][a-zA-Z0-9-_]{0,61}[a-zA-Z0-9]{0,1}\\.([a-zA-Z]{1,6}|[a-zA-Z0-9-]{1,30}\\.[a-zA-Z]{2,3})", domain))
             return true;
         return false;
     }
 
-    private boolean checkKey(String key, int nbchar)
-    {
-        if(key.length() != nbchar)
+    private boolean checkKey(String key, int nbchar) {
+        if (key.length() != nbchar)
             return false;
-        if (Pattern.matches("[a-zA-Z0-9]+", key) == true)
+        if (Pattern.matches("[a-zA-Z0-9]+", key))
             return true;
         return false;
     }
@@ -222,9 +212,6 @@ public class LoginActivity extends AppCompatActivity {
         }
     }
 
-
-
-
     /**
      * Represents an asynchronous login/registration task used to authenticate
      * the user.
@@ -249,7 +236,7 @@ public class LoginActivity extends AppCompatActivity {
             }*/
 
             OvhApiWrapper ovh = new OvhApiWrapper(id);
-            if(ovh.checkIds() == true)
+            if (ovh.checkIds())
                 return true;
             else
                 return false;

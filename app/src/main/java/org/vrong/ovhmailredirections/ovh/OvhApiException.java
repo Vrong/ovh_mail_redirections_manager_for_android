@@ -14,7 +14,9 @@ public class OvhApiException extends Exception {
         BAD_PARAMETERS_ERROR,
         AUTH_ERROR,
         API_ERROR;
-    };
+    }
+
+    ;
 
     private final OvhApiExceptionCause ovhCause;
 
