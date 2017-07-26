@@ -3,31 +3,24 @@ package org.vrong.ovhmailredirections.gui;
 import android.animation.Animator;
 import android.animation.AnimatorListenerAdapter;
 import android.annotation.TargetApi;
-import android.support.design.widget.Snackbar;
-import android.support.v7.app.AppCompatActivity;
-
 import android.os.AsyncTask;
-
 import android.os.Build;
 import android.os.Bundle;
-import android.view.KeyEvent;
+import android.support.design.widget.Snackbar;
+import android.support.v7.app.AppCompatActivity;
 import android.view.View;
 import android.view.View.OnClickListener;
-import android.view.inputmethod.EditorInfo;
 import android.widget.ArrayAdapter;
 import android.widget.AutoCompleteTextView;
 import android.widget.Button;
-import android.widget.EditText;
-import android.widget.ListAdapter;
 import android.widget.Spinner;
 import android.widget.Switch;
-import android.widget.TextView;
 
+import org.vrong.ovhmailredirections.R;
 import org.vrong.ovhmailredirections.data.DomainIdLoader;
 import org.vrong.ovhmailredirections.data.OvhApiKeys;
 import org.vrong.ovhmailredirections.ovh.OvhApi;
 import org.vrong.ovhmailredirections.ovh.OvhApiWrapper;
-import org.vrong.ovhmailredirections.R;
 
 import java.util.regex.Pattern;
 
@@ -50,7 +43,6 @@ public class LoginActivity extends AppCompatActivity {
     private Switch mSave;
     private View mProgressView;
     private View mLoginFormView;
-    private ArrayAdapter<String> mEndpointAdapter;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -64,13 +56,12 @@ public class LoginActivity extends AppCompatActivity {
         mSave = (Switch) findViewById(R.id.save_locally);
 
         mEndPoint = (Spinner) findViewById(R.id.endpoint);
-        mEndpointAdapter = new ArrayAdapter<>(this,
+        ArrayAdapter<String> mEndpointAdapter = new ArrayAdapter<>(this,
                 android.R.layout.simple_spinner_dropdown_item, OvhApi.getEndpointList());
         mEndPoint.setAdapter(mEndpointAdapter);
 
         OvhApiKeys id = DomainIdLoader.loadDomainID(this);
-        if(id != null)
-        {
+        if (id != null) {
             mDomain.setText(id.getDomain());
             mSecretApplicationKey.setText(id.getSecretApplicationKey());
             mApplicationKey.setText(id.getApplicationKey());
@@ -117,7 +108,7 @@ public class LoginActivity extends AppCompatActivity {
                 mDomain.getText().toString().trim(),
                 mEndPoint.getSelectedItem().toString().trim());
 
-        if(mSave.isChecked())
+        if (mSave.isChecked())
             DomainIdLoader.saveDomainID(LoginActivity.this, id);
 
         boolean cancel = false;
@@ -128,20 +119,15 @@ public class LoginActivity extends AppCompatActivity {
             cancel = true;
             focusView = mDomain;
             mDomain.setError("Not a valid domain");
-        }
-        else if (!checkKey(id.getApplicationKey(), 16)) {
+        } else if (!checkKey(id.getApplicationKey(), 16)) {
             cancel = true;
             focusView = mApplicationKey;
             mApplicationKey.setError("Not a valid format");
-        }
-        else if(!checkKey(id.getSecretApplicationKey(), 32))
-        {
+        } else if (!checkKey(id.getSecretApplicationKey(), 32)) {
             cancel = true;
             focusView = mSecretApplicationKey;
             mSecretApplicationKey.setError("Not a valid format");
-        }
-        else if(!checkKey(id.getConsumerKey(), 32))
-        {
+        } else if (!checkKey(id.getConsumerKey(), 32)) {
             cancel = true;
             focusView = mConsumerKey;
             mConsumerKey.setError("Not a valid format");
@@ -160,20 +146,14 @@ public class LoginActivity extends AppCompatActivity {
         }
     }
 
-    private boolean checkDomain(String domain)
-    {
-        if (Pattern.matches("[a-zA-Z0-9][a-zA-Z0-9-_]{0,61}[a-zA-Z0-9]{0,1}\\.([a-zA-Z]{1,6}|[a-zA-Z0-9-]{1,30}\\.[a-zA-Z]{2,3})", domain))
-            return true;
-        return false;
+    private boolean checkDomain(String domain) {
+        return Pattern.matches("[a-zA-Z0-9][a-zA-Z0-9-_]{0,61}[a-zA-Z0-9]{0,1}\\.([a-zA-Z]{1,6}|[a-zA-Z0-9-]{1,30}\\.[a-zA-Z]{2,3})", domain);
     }
 
-    private boolean checkKey(String key, int nbchar)
-    {
-        if(key.length() != nbchar)
+    private boolean checkKey(String key, int nbchar) {
+        if (key.length() != nbchar)
             return false;
-        if (Pattern.matches("[a-zA-Z0-9]+", key) == true)
-            return true;
-        return false;
+        return Pattern.matches("[a-zA-Z0-9]+", key);
     }
 
 
@@ -214,8 +194,6 @@ public class LoginActivity extends AppCompatActivity {
     }
 
 
-
-
     /**
      * Represents an asynchronous login/registration task used to authenticate
      * the user.
@@ -230,23 +208,9 @@ public class LoginActivity extends AppCompatActivity {
 
         @Override
         protected Boolean doInBackground(Void... params) {
-            // TODO: attempt authentication against a network service.
-
-            /*try {
-                // Simulate network access.
-                Thread.sleep(2000);
-            } catch (InterruptedException e) {
-                return false;
-            }*/
 
             OvhApiWrapper ovh = new OvhApiWrapper(id);
-            if(ovh.checkIds() == true)
-                return true;
-            else
-                return false;
-            // TODO network verification
-
-            // TODO: register the new account here.
+            return ovh.checkIds();
         }
 
         @Override

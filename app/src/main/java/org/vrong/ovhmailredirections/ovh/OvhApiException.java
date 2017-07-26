@@ -6,16 +6,6 @@ package org.vrong.ovhmailredirections.ovh;
 
 public class OvhApiException extends Exception {
 
-    public enum OvhApiExceptionCause {
-        CONFIG_ERROR,
-        INTERNAL_ERROR,
-        RESSOURCE_NOT_FOUND,
-        RESSOURCE_CONFLICT_ERROR,
-        BAD_PARAMETERS_ERROR,
-        AUTH_ERROR,
-        API_ERROR;
-    };
-
     private final OvhApiExceptionCause ovhCause;
 
     public OvhApiException(String message, OvhApiExceptionCause ovhCause) {
@@ -30,6 +20,16 @@ public class OvhApiException extends Exception {
     @Override
     public String toString() {
         return "OvhApiException [ovhCause=" + ovhCause + "] : " + getLocalizedMessage();
+    }
+
+    public enum OvhApiExceptionCause {
+        CONFIG_ERROR,
+        INTERNAL_ERROR,
+        RESSOURCE_NOT_FOUND,
+        RESSOURCE_CONFLICT_ERROR,
+        BAD_PARAMETERS_ERROR,
+        AUTH_ERROR,
+        API_ERROR
     }
 
 

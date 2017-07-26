@@ -25,7 +25,6 @@
         android:layout_height="match_parent">
 
         <LinearLayout
-            android:id="@+id/email_login_form"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:orientation="vertical">
@@ -40,8 +39,7 @@
                     android:layout_height="wrap_content"
                     android:hint="@string/domain"
                     android:inputType="textUri"
-                    android:maxLines="1"
-                    android:singleLine="true" />
+                    android:maxLines="1" />
 
             </android.support.design.widget.TextInputLayout>
 
@@ -55,8 +53,7 @@
                     android:layout_height="wrap_content"
                     android:hint="@string/application_key"
                     android:inputType="textUri"
-                    android:maxLines="1"
-                    android:singleLine="true" />
+                    android:maxLines="1" />
 
             </android.support.design.widget.TextInputLayout>
 
@@ -70,8 +67,7 @@
                     android:layout_height="wrap_content"
                     android:hint="@string/secret_application_key"
                     android:inputType="textUri"
-                    android:maxLines="1"
-                    android:singleLine="true" />
+                    android:maxLines="1" />
 
             </android.support.design.widget.TextInputLayout>
 
@@ -85,35 +81,32 @@
                     android:layout_height="wrap_content"
                     android:hint="@string/consumer_key"
                     android:inputType="textUri"
-                    android:maxLines="1"
-                    android:singleLine="true" />
+                    android:maxLines="1" />
 
             </android.support.design.widget.TextInputLayout>
 
 
             <TextView
-                android:text="@string/endpoint"
-                android:paddingLeft="5dp"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:id="@+id/textView"
-                android:fontFamily="sans-serif"
-                android:textSize="12sp"
-                android:textColor="?android:attr/textColorHint" />
+                android:paddingLeft="5dp"
+                android:text="@string/endpoint"
+                android:textColor="?android:attr/textColorHint"
+                android:textSize="12sp" />
 
             <Spinner
+                android:id="@+id/endpoint"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:id="@+id/endpoint"
+                android:layout_marginBottom="5dp"
                 android:prompt="@string/endpoint"
-                android:spinnerMode="dialog"
-                android:layout_marginBottom="5dp"/>
+                android:spinnerMode="dialog" />
 
             <Switch
-                android:text="Save locally"
+                android:id="@+id/save_locally"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:id="@+id/save_locally" />
+                android:text="@string/save_locally" />
 
             <Button
                 android:id="@+id/verify"

@@ -69,7 +69,7 @@ Oh! forgot to tell you have to have an OVH domain and mailbox.
 ### Installing
 
 Well I assume you know how to install an Android application. (click the green play button after connecting your device to your computer)
-Building the APK and transfering it to your phone also work.
+Building the APK and transferring it to your phone also work.
 
 ## License
 

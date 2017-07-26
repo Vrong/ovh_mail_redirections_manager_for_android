@@ -19,8 +19,7 @@ public class OvhApiWrapper {
 
     private OvhApi api = null;
 
-    public OvhApiWrapper(OvhApiKeys id)
-    {
+    public OvhApiWrapper(OvhApiKeys id) {
         api = new OvhApi(id);
     }
 
@@ -30,10 +29,10 @@ public class OvhApiWrapper {
 
     /**
      * Try to fetch redirections to know whether the keys are valid or not
+     *
      * @return true if valid, false otherwise
      */
-    public boolean checkIds()
-    {
+    public boolean checkIds() {
         String body = "";
         String path = "";
         String response = null;
@@ -44,25 +43,21 @@ public class OvhApiWrapper {
         try {
             response = api.get(path, body, true);
             JSONArray ids = new JSONArray(response);
-            for (int i = 0; i < ids.length(); i++)
-            {
+            for (int i = 0; i < ids.length(); i++) {
                 String id = ids.getString(i);
                 System.out.println(id);
             }
 
             return true;
 
-        } catch (OvhApiException e) {
-            e.printStackTrace();
-        } catch (JSONException e) {
+        } catch (OvhApiException | JSONException e) {
             e.printStackTrace();
         }
 
         return false;
     }
 
-    public List<Redirection> getMailRedirections()
-    {
+    public List<Redirection> getMailRedirections() {
         String body = "";
         String path = "";
         String response = null;
@@ -81,13 +76,12 @@ public class OvhApiWrapper {
 
         try {
             JSONArray ids = new JSONArray(response);
-            for (int i = 0; i < ids.length(); i++)
-            {
+            for (int i = 0; i < ids.length(); i++) {
                 String id = ids.getString(i);
                 System.out.println(id);
 
                 Redirection rd = getMailRedirection(id);
-                if(rd != null)
+                if (rd != null)
                     redirs.add(rd);
             }
 
@@ -100,13 +94,12 @@ public class OvhApiWrapper {
         return sortRedirections(redirs);
     }
 
-    public List<Redirection> sortRedirections(List<Redirection> list)
-    {
+    public List<Redirection> sortRedirections(List<Redirection> list) {
         if (list.size() > 0) {
             Collections.sort(list, new Comparator<Redirection>() {
                 @Override
                 public int compare(final Redirection object1, final Redirection object2) {
-                  return object1.getSource().compareTo(object2.getSource());
+                    return object1.getSource().compareTo(object2.getSource());
                 }
             });
         }
@@ -115,13 +108,11 @@ public class OvhApiWrapper {
     }
 
 
-
-    public Redirection getMailRedirection(String id)
-    {
+    public Redirection getMailRedirection(String id) {
         String body = "";
         String path = "";
         String response = null;
-        Redirection redir= null;
+        Redirection redir = null;
 
         path = "/email/domain/" + api.getId().getDomain() + "/redirection/" + id;
 
@@ -142,8 +133,7 @@ public class OvhApiWrapper {
         return redir;
     }
 
-    public boolean createRedirection(Redirection redir)
-    {
+    public boolean createRedirection(Redirection redir) {
         String body = "";
         String path = "";
         String response = null;
@@ -174,8 +164,7 @@ public class OvhApiWrapper {
     }
 
 
-    public boolean removeRedirection(Redirection redir)
-    {
+    public boolean removeRedirection(Redirection redir) {
 
         String body = "";
         String path = "";
@@ -202,8 +191,7 @@ public class OvhApiWrapper {
     }
 
 
-    public int getTimestamp()
-    {
+    public int getTimestamp() {
         String body = "";
         String path = "/auth/time";
         String response = null;

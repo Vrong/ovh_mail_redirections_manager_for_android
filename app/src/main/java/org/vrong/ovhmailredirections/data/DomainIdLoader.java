@@ -18,11 +18,10 @@ public class DomainIdLoader {
     public static final String ENDPOINT = "ep";
     public static final String DOMAIN = "domain";
 
-    public static OvhApiKeys loadDomainID(Context context)
-    {
-        try{
+    public static OvhApiKeys loadDomainID(Context context) {
+        try {
             PropertyFile prop = new PropertyFile(context, DOMAIN_FILE);
-            if(prop.hasKey(APPLICATION_KEY)
+            if (prop.hasKey(APPLICATION_KEY)
                     && prop.hasKey(SECRET_APPLICATION_KEY)
                     && prop.hasKey(CONSUMER_KEY)
                     && prop.hasKey(ENDPOINT)
@@ -34,18 +33,14 @@ public class DomainIdLoader {
                         prop.getValue(ENDPOINT));
             else
                 return null;
-        }
-        catch (IOException io)
-        {
+        } catch (IOException io) {
             return null;
         }
 
     }
 
-    public static boolean saveDomainID(Context context, OvhApiKeys id)
-    {
-        try
-        {
+    public static boolean saveDomainID(Context context, OvhApiKeys id) {
+        try {
             PropertyFile prop = new PropertyFile(context, DOMAIN_FILE);
             prop.putValue(APPLICATION_KEY, id.getApplicationKey());
             prop.putValue(SECRET_APPLICATION_KEY, id.getSecretApplicationKey());
@@ -53,9 +48,7 @@ public class DomainIdLoader {
             prop.putValue(DOMAIN, id.getDomain());
             prop.putValue(ENDPOINT, id.getEndPoint());
             return prop.save();
-        }
-        catch (IOException io)
-        {
+        } catch (IOException io) {
             return false;
         }
     }

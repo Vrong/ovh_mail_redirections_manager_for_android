@@ -9,6 +9,7 @@ import java.util.List;
  */
 public interface RedirectionUpdaterListener {
 
-    public void onRedirectionLoaded(List<Redirection> redirs, RedirectionUpdater.RedirectionAction action);
-    public void onLoadingFailed(RedirectionUpdater.RedirectionAction action);
+    void onRedirectionLoaded(List<Redirection> redirs, RedirectionUpdater.RedirectionAction action);
+
+    void onLoadingFailed(RedirectionUpdater.RedirectionAction action);
 }

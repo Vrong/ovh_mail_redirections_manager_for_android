@@ -31,21 +31,20 @@ public class RedirectionListAdapter extends ArrayAdapter<Redirection> {
 
 
     @Override
-    public View getView(int position, View convertView, ViewGroup parent)
-    {
+    public View getView(int position, View convertView, ViewGroup parent) {
         Redirection redir = redirsList.get(position);
         RedirectionViewHolder holder = null;
 
         if (convertView == null) {
             //Inflate our XML view
-            LayoutInflater vi = (LayoutInflater)this.getContext().getSystemService(
+            LayoutInflater vi = (LayoutInflater) this.getContext().getSystemService(
                     Context.LAYOUT_INFLATER_SERVICE);
             convertView = vi.inflate(R.layout.redirection_item, null);
 
             holder = new RedirectionViewHolder();
-            holder.deleteFab = (FloatingActionButton) convertView.findViewById(R.id.deleteFab);
-            holder.destinationTv = (TextView) convertView.findViewById(R.id.destination);
-            holder.sourceTv = (TextView) convertView.findViewById(R.id.source);
+            holder.deleteFab = convertView.findViewById(R.id.deleteFab);
+            holder.destinationTv = convertView.findViewById(R.id.destination);
+            holder.sourceTv = convertView.findViewById(R.id.source);
             holder.itemV = convertView;
             holder.deleteFab.setTag(holder);
             holder.destinationTv.setTag(holder);
@@ -54,9 +53,7 @@ public class RedirectionListAdapter extends ArrayAdapter<Redirection> {
 
             //set listener on the delete fab
             holder.deleteFab.setOnClickListener(deleteClickListener);
-        }
-        else
-        {
+        } else {
             holder = (RedirectionViewHolder) convertView.getTag();
         }
         holder.redirection = redir;
@@ -68,8 +65,7 @@ public class RedirectionListAdapter extends ArrayAdapter<Redirection> {
         return convertView;
     }
 
-    public class RedirectionViewHolder
-    {
+    public class RedirectionViewHolder {
         public Redirection redirection;
         public View itemV;
         public FloatingActionButton deleteFab;

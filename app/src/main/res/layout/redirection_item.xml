@@ -6,13 +6,13 @@
 
 
     <TextView
-        android:text="redirection@domain.org"
+        android:id="@+id/source"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_alignParentTop="true"
-        android:layout_toRightOf="@+id/deleteFab"
-        android:id="@+id/source"
         android:layout_marginTop="@dimen/fab_margin"
+        android:layout_toRightOf="@+id/deleteFab"
+        android:text="@string/redirection_domain_org"
         android:textAppearance="@style/TextAppearance.AppCompat.Medium" />
 
     <android.support.design.widget.FloatingActionButton
@@ -20,29 +20,29 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_alignParentLeft="true"
-        app:srcCompat="@android:drawable/ic_delete"
-        app:backgroundTint="@color/deleteBackground"
         android:layout_margin="@dimen/fab_margin"
+        app:backgroundTint="@color/deleteBackground"
+        app:elevation="5dp"
         app:fabSize="mini"
-        app:elevation="5dp" />
+        app:srcCompat="@android:drawable/ic_delete" />
 
     <TextView
-        android:text="to"
+        android:id="@+id/textView2"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_alignBottom="@+id/deleteFab"
         android:layout_below="@id/source"
         android:layout_toRightOf="@id/deleteFab"
-        android:id="@+id/textView2" />
+        android:text="@string/to" />
 
     <TextView
-        android:text="name@domain.org"
+        android:id="@+id/destination"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_below="@+id/source"
-        android:layout_toRightOf="@+id/textView2"
         android:layout_marginLeft="@dimen/activity_vertical_margin"
-        android:id="@+id/destination"
+        android:layout_toRightOf="@+id/textView2"
+        android:text="@string/name_domain_org"
         android:textAppearance="@style/TextAppearance.AppCompat.Small" />
 
 </RelativeLayout>

@@ -2,8 +2,8 @@ package org.vrong.ovhmailredirections.gui;
 
 import android.os.AsyncTask;
 
-import org.vrong.ovhmailredirections.ovh.OvhApiWrapper;
 import org.vrong.ovhmailredirections.data.Redirection;
+import org.vrong.ovhmailredirections.ovh.OvhApiWrapper;
 
 import java.util.List;
 
@@ -24,8 +24,7 @@ class RedirectionUpdater extends AsyncTask<Void, Void, Boolean> {
         this.listener = listener;
     }
 
-    RedirectionUpdater(OvhApiWrapper wrapper, RedirectionUpdaterListener listener)
-    {
+    RedirectionUpdater(OvhApiWrapper wrapper, RedirectionUpdaterListener listener) {
         this(wrapper, listener, new RedirectionAction(REDIRECTION_ACTION.SELECTION, null));
     }
 
@@ -33,8 +32,7 @@ class RedirectionUpdater extends AsyncTask<Void, Void, Boolean> {
     protected Boolean doInBackground(Void... params) {
 
         boolean result = true;
-        switch (action.action)
-        {
+        switch (action.action) {
             case CREATION:
                 result = wrapper.createRedirection(action.item);
                 break;
@@ -45,7 +43,7 @@ class RedirectionUpdater extends AsyncTask<Void, Void, Boolean> {
                 result = wrapper.removeRedirection(action.item);
                 break;
         }
-        if(result)
+        if (result)
             redirs = wrapper.getMailRedirections();
 
         return result;
@@ -54,7 +52,7 @@ class RedirectionUpdater extends AsyncTask<Void, Void, Boolean> {
     @Override
     protected void onPostExecute(final Boolean res) {
 
-        if (redirs != null && res == true) {
+        if (redirs != null && res) {
             listener.onRedirectionLoaded(redirs, action);
         } else {
             listener.onLoadingFailed(action);
@@ -67,16 +65,14 @@ class RedirectionUpdater extends AsyncTask<Void, Void, Boolean> {
     }
 
     enum REDIRECTION_ACTION {CREATION, MODIFICATION, SUPPRESSION, SELECTION}
-    public static class RedirectionAction
-    {
-        public RedirectionAction(REDIRECTION_ACTION action, Redirection item)
-        {
+
+    public static class RedirectionAction {
+        public REDIRECTION_ACTION action;
+        public Redirection item;
+        public RedirectionAction(REDIRECTION_ACTION action, Redirection item) {
             this.action = action;
             this.item = item;
         }
-
-        public REDIRECTION_ACTION action;
-        public Redirection item;
     }
 
 }

@@ -25,7 +25,6 @@
         android:layout_height="match_parent">
 
         <LinearLayout
-            android:id="@+id/email_login_form"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:orientation="vertical">
@@ -38,10 +37,9 @@
                     android:id="@+id/from"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:hint="from"
+                    android:hint="@string/from"
                     android:inputType="textUri"
-                    android:maxLines="1"
-                    android:singleLine="true" />
+                    android:maxLines="1" />
 
 
             </android.support.design.widget.TextInputLayout>
@@ -49,23 +47,22 @@
             <android.support.design.widget.TextInputLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content">
+
                 <EditText
                     android:id="@+id/to"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:hint="to"
+                    android:hint="@string/to"
                     android:inputType="textUri"
-                    android:maxLines="1"
-                    android:singleLine="true" />
+                    android:maxLines="1" />
 
             </android.support.design.widget.TextInputLayout>
 
             <Switch
-                android:text="Local copy"
+                android:id="@+id/local_copy"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:id="@+id/local_copy" />
-
+                android:text="@string/local_copy" />
 
 
         </LinearLayout>
