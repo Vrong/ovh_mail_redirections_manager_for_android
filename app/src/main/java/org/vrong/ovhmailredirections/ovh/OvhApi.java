@@ -9,10 +9,15 @@ import java.net.HttpURLConnection;
 import java.net.URL;
 import java.security.MessageDigest;
 import java.security.NoSuchAlgorithmException;
+import java.util.ArrayList;
+import java.util.Collections;
+import java.util.Comparator;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 
 import org.vrong.ovhmailredirections.data.OvhApiKeys;
+import org.vrong.ovhmailredirections.data.Redirection;
 
 /**
  * Created by vrong on 22/07/17.
@@ -35,11 +40,21 @@ public class OvhApi {
         endpoints.put("runabove-ca", "https://api.runabove.com/1.0");
     }
 
+    public static List<String> getEndpointList()
+    {
+        List<String> res = new ArrayList<>();
+        for(String endpoint : endpoints.keySet())
+            res.add(endpoint);
+
+        Collections.sort(res);
+
+        return res;
+    }
+
     public OvhApi(OvhApiKeys id)
     {
         this.id = id;
     }
-
 
     public OvhApiKeys getId() {
         return id;

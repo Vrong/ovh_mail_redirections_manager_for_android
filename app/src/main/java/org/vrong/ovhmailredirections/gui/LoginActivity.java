@@ -14,14 +14,18 @@ import android.view.KeyEvent;
 import android.view.View;
 import android.view.View.OnClickListener;
 import android.view.inputmethod.EditorInfo;
+import android.widget.ArrayAdapter;
 import android.widget.AutoCompleteTextView;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.ListAdapter;
+import android.widget.Spinner;
 import android.widget.Switch;
 import android.widget.TextView;
 
 import org.vrong.ovhmailredirections.data.DomainIdLoader;
 import org.vrong.ovhmailredirections.data.OvhApiKeys;
+import org.vrong.ovhmailredirections.ovh.OvhApi;
 import org.vrong.ovhmailredirections.ovh.OvhApiWrapper;
 import org.vrong.ovhmailredirections.R;
 
@@ -42,10 +46,11 @@ public class LoginActivity extends AppCompatActivity {
     private AutoCompleteTextView mApplicationKey;
     private AutoCompleteTextView mSecretApplicationKey;
     private AutoCompleteTextView mConsumerKey;
-    private EditText mEndPoint;
+    private Spinner mEndPoint;
     private Switch mSave;
     private View mProgressView;
     private View mLoginFormView;
+    private ArrayAdapter<String> mEndpointAdapter;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -58,17 +63,10 @@ public class LoginActivity extends AppCompatActivity {
         mConsumerKey = (AutoCompleteTextView) findViewById(R.id.consumer_key);
         mSave = (Switch) findViewById(R.id.save_locally);
 
-        mEndPoint = (EditText) findViewById(R.id.endpoint);
-        mEndPoint.setOnEditorActionListener(new TextView.OnEditorActionListener() {
-            @Override
-            public boolean onEditorAction(TextView textView, int id, KeyEvent keyEvent) {
-                if (id == R.id.login || id == EditorInfo.IME_NULL) {
-                    attemptLogin();
-                    return true;
-                }
-                return false;
-            }
-        });
+        mEndPoint = (Spinner) findViewById(R.id.endpoint);
+        mEndpointAdapter = new ArrayAdapter<>(this,
+                android.R.layout.simple_spinner_dropdown_item, OvhApi.getEndpointList());
+        mEndPoint.setAdapter(mEndpointAdapter);
 
         OvhApiKeys id = DomainIdLoader.loadDomainID(this);
         if(id != null)
@@ -77,7 +75,8 @@ public class LoginActivity extends AppCompatActivity {
             mSecretApplicationKey.setText(id.getSecretApplicationKey());
             mApplicationKey.setText(id.getApplicationKey());
             mConsumerKey.setText(id.getConsumerKey());
-            mEndPoint.setText(id.getEndPoint());
+            int endpointPosition = mEndpointAdapter.getPosition(id.getEndPoint());
+            mEndPoint.setSelection(endpointPosition);
         }
 
 
@@ -105,7 +104,6 @@ public class LoginActivity extends AppCompatActivity {
         }
 
         // Reset errors.
-        mEndPoint.setError(null);
         mDomain.setError(null);
         mApplicationKey.setError(null);
         mConsumerKey.setError(null);
@@ -117,20 +115,13 @@ public class LoginActivity extends AppCompatActivity {
                 mSecretApplicationKey.getText().toString().trim(),
                 mConsumerKey.getText().toString().trim(),
                 mDomain.getText().toString().trim(),
-                mEndPoint.getText().toString().trim());
+                mEndPoint.getSelectedItem().toString().trim());
 
         if(mSave.isChecked())
             DomainIdLoader.saveDomainID(LoginActivity.this, id);
 
         boolean cancel = false;
         View focusView = null;
-
-        // Check for a valid password, if the user entered one.
-        /*if (!TextUtils.isEmpty(password) && !isPasswordValid(password)) {
-            mPasswordView.setError(getString(R.string.error_invalid_password));
-            focusView = mPasswordView;
-            cancel = true;
-        }*/
 
         // Check for a valid email address.
         if (!checkDomain(id.getDomain())) {

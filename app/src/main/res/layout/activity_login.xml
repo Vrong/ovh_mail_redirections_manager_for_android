@@ -90,23 +90,24 @@
 
             </android.support.design.widget.TextInputLayout>
 
-            <android.support.design.widget.TextInputLayout
+
+            <TextView
+                android:text="@string/endpoint"
+                android:paddingLeft="5dp"
                 android:layout_width="match_parent"
-                android:layout_height="wrap_content">
+                android:layout_height="wrap_content"
+                android:id="@+id/textView"
+                android:fontFamily="sans-serif"
+                android:textSize="12sp"
+                android:textColor="?android:attr/textColorHint" />
 
-                <EditText
-                    android:id="@+id/endpoint"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:hint="@string/endpoint"
-                    android:imeActionId="@+id/login"
-                    android:imeActionLabel="@string/action_sign_in_short"
-                    android:imeOptions="actionUnspecified"
-                    android:inputType="textUri"
-                    android:maxLines="1"
-                    android:singleLine="true" />
-
-            </android.support.design.widget.TextInputLayout>
+            <Spinner
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:id="@+id/endpoint"
+                android:prompt="@string/endpoint"
+                android:spinnerMode="dialog"
+                android:layout_marginBottom="5dp"/>
 
             <Switch
                 android:text="Save locally"
