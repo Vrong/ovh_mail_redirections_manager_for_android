@@ -59,7 +59,7 @@ public class OvhApi {
         byte[] sha1hash = new byte[40];
         md.update(text.getBytes("iso-8859-1"), 0, text.length());
         sha1hash = md.digest();
-        StringBuffer sb = new StringBuffer();
+        StringBuilder sb = new StringBuilder();
         for (byte aSha1hash : sha1hash) {
             sb.append(Integer.toString((aSha1hash & 0xff) + 0x100, 16).substring(1));
         }
@@ -117,7 +117,7 @@ public class OvhApi {
             String indexedEndpoint = endpoints.get(id.getEndPoint());
             String endpoint = (indexedEndpoint == null) ? id.getEndPoint() : indexedEndpoint;
 
-            URL url = new URL(new StringBuilder(endpoint).append(path).toString());
+            URL url = new URL(endpoint + path);
 
             // prepare
             HttpURLConnection request = (HttpURLConnection) url.openConnection();
@@ -132,19 +132,13 @@ public class OvhApi {
                 long timestamp = System.currentTimeMillis() / 1000;
 
                 // build signature
-                String toSign = new StringBuilder(id.getSecretApplicationKey())
-                        .append("+")
-                        .append(id.getConsumerKey())
-                        .append("+")
-                        .append(method)
-                        .append("+")
-                        .append(url)
-                        .append("+")
-                        .append(body)
-                        .append("+")
-                        .append(timestamp)
-                        .toString();
-                String signature = new StringBuilder("$1$").append(HashSHA1(toSign)).toString();
+                String toSign = id.getSecretApplicationKey() + "+" +
+                        id.getConsumerKey() + "+" +
+                        method + "+" +
+                        url + "+" +
+                        body + "+" +
+                        timestamp;
+                String signature = "$1$" + HashSHA1(toSign);
 
                 //System.out.println(toSign);
 

@@ -10,6 +10,7 @@ public class Redirection {
     private String source = null;
     private String destination = null;
     private OvhApiKeys login = null;
+
     public Redirection(OvhApiKeys login, String id, String source, String destination, boolean localCopy) {
         this.id = id;
         this.source = source;

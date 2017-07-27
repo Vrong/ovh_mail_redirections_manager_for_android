@@ -22,8 +22,8 @@ import java.util.Map;
 
 public class PropertyFile {
 
-    Context context;
-    String filename = null;
+    private Context context;
+    private String filename = null;
     private HashMap<String, String> values;
 
 

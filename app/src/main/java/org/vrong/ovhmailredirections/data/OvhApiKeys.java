@@ -10,6 +10,7 @@ public class OvhApiKeys {
     private String consumerKey = null;
     private String domain = null;
     private String endPoint = null;
+
     public OvhApiKeys(String applicationKey, String secretApplicationKey, String consumerKey, String domain, String endPoint) {
         this.applicationKey = applicationKey.trim();
         this.secretApplicationKey = secretApplicationKey.trim();
