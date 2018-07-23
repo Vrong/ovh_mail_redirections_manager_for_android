@@ -1,5 +1,7 @@
 package org.vrong.ovhmailredirections.ovh;
 
+import android.os.AsyncTask;
+
 import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
@@ -10,6 +12,7 @@ import java.util.ArrayList;
 import java.util.Collections;
 import java.util.Comparator;
 import java.util.List;
+import java.util.concurrent.Semaphore;
 
 /**
  * Created by vrong on 23/07/17.
@@ -73,35 +76,76 @@ public class OvhApiWrapper {
         }
 
         System.out.println(response);
-
+        Semaphore sem = new Semaphore(50, true);
+        List<Thread> tasks = new ArrayList<>();
         try {
+            AsyncGetMailRedirection task = null;
             JSONArray ids = new JSONArray(response);
             for (int i = 0; i < ids.length(); i++) {
                 String id = ids.getString(i);
-                System.out.println(id);
+                System.out.println("Getting redirection id: " + id);
 
-                Redirection rd = getMailRedirection(id);
-                if (rd != null)
-                    redirs.add(rd);
+                task = new AsyncGetMailRedirection(redirs, id, sem);
+                tasks.add(task);
+                task.start();
             }
 
         } catch (JSONException e) {
             e.printStackTrace();
             return null;
         }
-
-
+        if(!tasks.isEmpty()) {
+            try {
+                for(Thread task: tasks)
+                    task.join();
+            } catch (InterruptedException e) {
+                e.printStackTrace();
+            }
+        }
         return sortRedirections(redirs);
     }
 
-    public List<Redirection> sortRedirections(List<Redirection> list) {
-        if (list.size() > 0) {
-            Collections.sort(list, new Comparator<Redirection>() {
-                @Override
-                public int compare(final Redirection object1, final Redirection object2) {
-                    return object1.getSource().compareTo(object2.getSource());
+    class AsyncGetMailRedirection extends Thread
+    {
+        private List<Redirection> list = null;
+        private String id;
+        Semaphore sem;
+
+        public AsyncGetMailRedirection(List<Redirection> list, String id, Semaphore sem) {
+            this.list = list;
+            this.id = id;
+            this.sem = sem;
+        }
+
+        public void run(){
+            try {
+                sem.acquire();
+                Redirection red = getMailRedirection(id);
+
+                synchronized (list)
+                {
+                    list.add(red);
                 }
-            });
+
+                sem.release();
+            } catch (InterruptedException e) {
+                e.printStackTrace();
+            }
+
+        }
+    }
+
+
+    public List<Redirection> sortRedirections(List<Redirection> list) {
+        synchronized (list) {
+            if (list.size() > 0) {
+                Collections.sort(list, new Comparator<Redirection>() {
+                    @Override
+                    public int compare(final Redirection object1, final Redirection object2) {
+                        return object1.getSource().compareTo(object2.getSource());
+                    }
+                });
+            }
         }
 
         return list;
@@ -118,7 +162,7 @@ public class OvhApiWrapper {
 
         try {
             response = api.get(path, body, true);
-            System.out.println(response);
+            System.out.println("OvhApiWrapper::getMailRediretions: " + response);
             JSONObject json = new JSONObject(response);
             redir = new Redirection(api.getId(), json.getString("id"), json.getString("from"), json.getString("to"), false);
 
