@@ -16,4 +16,5 @@
     <string name="name_domain_org">name@domain.org</string>
     <string name="from">from</string>
     <string name="local_copy">Local copy</string>
+    <string name="type_filter_here">Type filter here</string>
 </resources>

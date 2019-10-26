@@ -37,4 +37,17 @@ public class Redirection {
     public boolean isLocalCopy() {
         return localCopy;
     }
+
+    @Override
+    public String toString()
+    {
+        try
+        {
+            return getSource().split("@")[0];
+        }
+        catch(Exception e)
+        {
+            return "";
+        }
+    }
 }

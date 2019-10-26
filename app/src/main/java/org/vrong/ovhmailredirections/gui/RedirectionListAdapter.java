@@ -22,6 +22,7 @@ public class RedirectionListAdapter extends ArrayAdapter<Redirection> {
 
     private List<Redirection> redirsList = null;
     private View.OnClickListener deleteClickListener = null;
+    private String filter = "";
 
     public RedirectionListAdapter(Context context, int resource, List<Redirection> objects, View.OnClickListener delete) {
         super(context, resource, objects);
@@ -29,10 +30,9 @@ public class RedirectionListAdapter extends ArrayAdapter<Redirection> {
         redirsList = new ArrayList<>(objects);
     }
 
-
     @Override
     public View getView(int position, View convertView, ViewGroup parent) {
-        Redirection redir = redirsList.get(position);
+        Redirection redir = getItem(position);
         RedirectionViewHolder holder = null;
 
         if (convertView == null) {

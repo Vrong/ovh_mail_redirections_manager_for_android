@@ -9,6 +9,8 @@ import android.support.design.widget.Snackbar;
 import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
+import android.text.Editable;
+import android.text.TextWatcher;
 import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuItem;
@@ -31,6 +33,7 @@ import java.util.List;
 public class RedirectionsActivity extends AppCompatActivity implements RedirectionUpdaterListener {
 
     ListView redirLv = null;
+    RedirectionListAdapter adapter = null;
     FloatingActionButton fab;
     private OvhApiWrapper wrapper = null;
 
@@ -43,6 +46,44 @@ public class RedirectionsActivity extends AppCompatActivity implements Redirecti
 
         redirLv = (ListView) findViewById(R.id.redir_listview);
 
+
+        // filter
+        EditText filter = (EditText) findViewById(R.id.textfilter);
+        filter.addTextChangedListener(new TextWatcher() {
+            @Override
+            public void beforeTextChanged(CharSequence s, int start, int count, int after) {
+
+            }
+
+            @Override
+            public void onTextChanged(CharSequence s, int start, int before, int count) {
+                /*if(RedirectionsActivity.this.redirLv != null)
+                {
+                    if(s.length() > 0) {
+                        RedirectionsActivity.this.redirLv.setFilterText(s.toString());
+                        RedirectionsActivity.this.redirLv.setTextFilterEnabled(true);
+                    }
+                    else {
+                        RedirectionsActivity.this.redirLv.setTextFilterEnabled(false);
+                        RedirectionsActivity.this.redirLv.;
+                    }
+                }*/
+                if(RedirectionsActivity.this.adapter != null)
+                {
+                    RedirectionsActivity.this.adapter.getFilter().filter(s.toString());
+                    RedirectionsActivity.this.adapter.notifyDataSetChanged();
+                }
+            }
+
+            @Override
+            public void afterTextChanged(Editable s) {
+
+            }
+        });
+
+
+
+        // fab actions and alertdialogs
         fab = (FloatingActionButton) findViewById(R.id.fab);
         fab.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -204,7 +245,7 @@ public class RedirectionsActivity extends AppCompatActivity implements Redirecti
             }
         };
 
-        redirLv.setAdapter(new RedirectionListAdapter(this, R.layout.redirection_item, redirections, delete));
+        redirLv.setAdapter(adapter = new RedirectionListAdapter(this, R.layout.redirection_item, redirections, delete));
 
         String msg = "Action performed !";
         switch (action.action) {
