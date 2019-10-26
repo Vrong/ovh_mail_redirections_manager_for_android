@@ -1,6 +1,7 @@
 package org.vrong.ovhmailredirections.gui;
 
 import android.content.Context;
+import android.support.annotation.NonNull;
 import android.support.design.widget.FloatingActionButton;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -29,11 +30,11 @@ public class RedirectionListAdapter extends ArrayAdapter<Redirection> {
         redirsList = new ArrayList<>(objects);
     }
 
-
+    @NonNull
     @Override
-    public View getView(int position, View convertView, ViewGroup parent) {
+    public View getView(int position, View convertView, @NonNull ViewGroup parent) {
         Redirection redir = redirsList.get(position);
-        RedirectionViewHolder holder = null;
+        RedirectionViewHolder holder;
 
         if (convertView == null) {
             //Inflate our XML view

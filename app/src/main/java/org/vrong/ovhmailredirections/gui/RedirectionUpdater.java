@@ -16,7 +16,7 @@ class RedirectionUpdater extends AsyncTask<Void, Void, Boolean> {
     private final OvhApiWrapper wrapper;
     private final RedirectionAction action;
     private final RedirectionUpdaterListener listener;
-    List<Redirection> redirs;
+    private List<Redirection> redirs;
 
     RedirectionUpdater(OvhApiWrapper wrapper, RedirectionUpdaterListener listener, RedirectionAction action) {
         this.wrapper = wrapper;
@@ -69,6 +69,7 @@ class RedirectionUpdater extends AsyncTask<Void, Void, Boolean> {
     public static class RedirectionAction {
         public REDIRECTION_ACTION action;
         public Redirection item;
+
         public RedirectionAction(REDIRECTION_ACTION action, Redirection item) {
             this.action = action;
             this.item = item;

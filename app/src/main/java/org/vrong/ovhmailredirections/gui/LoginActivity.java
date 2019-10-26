@@ -151,9 +151,7 @@ public class LoginActivity extends AppCompatActivity {
     }
 
     private boolean checkKey(String key, int nbchar) {
-        if (key.length() != nbchar)
-            return false;
-        return Pattern.matches("[a-zA-Z0-9]+", key);
+        return key.length() == nbchar && Pattern.matches("[a-zA-Z0-9]+", key);
     }
 
 

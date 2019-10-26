@@ -37,14 +37,10 @@ public class OvhApiWrapper {
      */
     public boolean checkIds() {
         String body = "";
-        String path = "";
-        String response = null;
-        List<Redirection> redirs = null;
-
-        path = "/email/domain/" + api.getId().getDomain() + "/redirection";
+        String path = "/email/domain/" + api.getId().getDomain() + "/redirection";
 
         try {
-            response = api.get(path, body, true);
+            String response = api.get(path, body, true);
             JSONArray ids = new JSONArray(response);
             for (int i = 0; i < ids.length(); i++) {
                 String id = ids.getString(i);
@@ -62,12 +58,10 @@ public class OvhApiWrapper {
 
     public List<Redirection> getMailRedirections() {
         String body = "";
-        String path = "";
-        String response = null;
         List<Redirection> redirs = new ArrayList<>();
+        String path = "/email/domain/" + api.getId().getDomain() + "/redirection";
 
-        path = "/email/domain/" + api.getId().getDomain() + "/redirection";
-
+        String response;
         try {
             response = api.get(path, body, true);
         } catch (OvhApiException e) {
@@ -154,12 +148,10 @@ public class OvhApiWrapper {
 
     public Redirection getMailRedirection(String id) {
         String body = "";
-        String path = "";
-        String response = null;
-        Redirection redir = null;
+        String path = "/email/domain/" + api.getId().getDomain() + "/redirection/" + id;
 
-        path = "/email/domain/" + api.getId().getDomain() + "/redirection/" + id;
-
+        String response;
+        Redirection redir;
         try {
             response = api.get(path, body, true);
             System.out.println("OvhApiWrapper::getMailRediretions: " + response);
@@ -179,11 +171,9 @@ public class OvhApiWrapper {
 
     public boolean createRedirection(Redirection redir) {
         String body = "";
-        String path = "";
-        String response = null;
+        String path = "/email/domain/" + api.getId().getDomain() + "/redirection/";
 
-        path = "/email/domain/" + api.getId().getDomain() + "/redirection/";
-
+        String response;
         try {
             JSONObject param = new JSONObject();
             param.put("localCopy", redir.isLocalCopy());
@@ -209,15 +199,11 @@ public class OvhApiWrapper {
 
 
     public boolean removeRedirection(Redirection redir) {
-
         String body = "";
-        String path = "";
-        String response = null;
+        String path = "/email/domain/" + api.getId().getDomain() + "/redirection/" + redir.getId();
 
-        path = "/email/domain/" + api.getId().getDomain() + "/redirection/" + redir.getId();
-
+        String response;
         try {
-
             response = api.delete(path, body, true);
             System.out.println(response);
             JSONObject json = new JSONObject(response);
@@ -236,11 +222,12 @@ public class OvhApiWrapper {
 
 
     public int getTimestamp() {
-        String body = "";
         String path = "/auth/time";
-        String response = null;
+
         int ts = 0;
 
+        String body = "";
+        String response;
         try {
             response = api.get(path, body, false);
         } catch (OvhApiException e) {
