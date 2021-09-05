@@ -121,10 +121,12 @@ public class OvhApiWrapper {
             try {
                 sem.acquire();
                 Redirection red = getMailRedirection(id);
-
-                synchronized (list)
-                {
-                    list.add(red);
+                if(red == null)
+                    System.out.println("Null redirection read for ID" + id);
+                else {
+                    synchronized (list) {
+                        list.add(red);
+                    }
                 }
 
                 sem.release();

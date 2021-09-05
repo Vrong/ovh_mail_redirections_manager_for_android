@@ -191,6 +191,7 @@ public class OvhApi {
             } else if (responseCode == 409) {
                 throw new OvhApiException(response.toString(), OvhApiException.OvhApiExceptionCause.RESSOURCE_CONFLICT_ERROR);
             } else {
+                System.out.println("API Error n" + responseCode);
                 throw new OvhApiException(response.toString(), OvhApiException.OvhApiExceptionCause.API_ERROR);
             }
 
